@@ -1792,6 +1792,7 @@ dependencies = [
     { name = "opencv-python" },
     { name = "pydantic-settings" },
     { name = "python-multipart" },
+    { name = "ultralytics" },
     { name = "uvicorn", extra = ["standard"] },
 ]
 
@@ -1818,6 +1819,7 @@ requires-dist = [
     { name = "pydantic-settings", specifier = ">=2.4.0" },
     { name = "pytest", marker = "extra == 'test'", specifier = ">=8.3.0" },
     { name = "python-multipart", specifier = ">=0.0.9" },
+    { name = "ultralytics", specifier = ">=8.4.47" },
     { name = "ultralytics", marker = "extra == 'vision'", specifier = ">=8.3.0" },
     { name = "uvicorn", extras = ["standard"], specifier = ">=0.30.0" },
 ]
