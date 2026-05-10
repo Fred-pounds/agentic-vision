@@ -5,6 +5,7 @@ export type Video = {
   recording_start_time: string;
   status: string;
   progress: number;
+  video_url?: string;
 };
 
 export type VideoStatus = {

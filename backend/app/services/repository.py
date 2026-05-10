@@ -21,7 +21,9 @@ class Repository:
         row = self.db.fetchone("SELECT * FROM videos WHERE id = ?", (video_id,))
         if not row:
             raise KeyError(video_id)
-        return VideoOut(**row)
+        video = VideoOut(**row)
+        video.video_url = f"/media/{video.id}/{video.filename}"
+        return video
 
     def update_video_status(
         self,
@@ -163,6 +165,14 @@ class Repository:
             (rule_id,),
         )
         return AlertHitOut(**row) if row else None
+
+    def delete_alert_rule(self, rule_id: str) -> None:
+        self.db.execute("DELETE FROM alert_rules WHERE id = ?", (rule_id,))
+        # Also clean up associated hits
+        self.db.execute("DELETE FROM alert_hits WHERE rule_id = ?", (rule_id,))
+
+    def clear_alert_hits(self) -> None:
+        self.db.execute("DELETE FROM alert_hits")
 
 
 def event_from_row(row: dict) -> EventOut:

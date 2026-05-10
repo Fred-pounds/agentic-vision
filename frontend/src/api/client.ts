@@ -49,6 +49,14 @@ export async function getAlerts() {
   return request<AlertsState>("/alerts");
 }
 
+export async function deleteAlertRule(ruleId: string) {
+  return request(`/alerts/rules/${ruleId}`, { method: "DELETE" });
+}
+
+export async function clearAlertHits() {
+  return request("/alerts/hits", { method: "DELETE" });
+}
+
 export type SeedResult = {
   video_id: string;
   created_events: number;

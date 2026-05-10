@@ -65,12 +65,9 @@ class OpenAICaptioner(BaseCaptioner):
 
 
 def build_captioner(base_url: str | None, api_key: str | None, model: str) -> BaseCaptioner:
-    if base_url:
-        try:
-            return OpenAICaptioner(base_url, api_key, model)
-        except Exception:
-            return TemplateCaptioner()
-    return TemplateCaptioner()
+    if not base_url:
+        raise RuntimeError("VLM_BASE_URL is not configured. Real captioning is required.")
+    return OpenAICaptioner(base_url, api_key, model)
 
 
 def cv2_imencode(frame: Any) -> tuple[bool, str]:

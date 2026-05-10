@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.api.routes import create_router
 from app.core.config import get_settings
@@ -20,6 +21,8 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    
+    app.mount("/media", StaticFiles(directory=settings.upload_dir), name="media")
     app.include_router(create_router(settings, repo))
     return app
 

@@ -8,6 +8,7 @@ class VideoOut(BaseModel):
     recording_start_time: str
     status: str
     progress: float
+    video_url: str | None = None
 
 
 class VideoStatus(BaseModel):

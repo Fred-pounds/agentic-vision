@@ -81,8 +81,5 @@ class YoloDetector(BaseDetector):
 def build_detector(mock_mode: bool, yolo_model_name: str = "yolov8n.pt") -> BaseDetector:
     if mock_mode:
         return MockDetector()
-    try:
-        return YoloDetector(yolo_model_name)
-    except Exception:
-        return MockDetector()
+    return YoloDetector(yolo_model_name)
 

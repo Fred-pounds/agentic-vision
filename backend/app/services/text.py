@@ -1,6 +1,17 @@
 import re
 
 
+from datetime import UTC, datetime
+
+
+def format_human_time(timestamp_iso: str) -> str:
+    try:
+        dt = datetime.fromisoformat(timestamp_iso)
+        return dt.astimezone(UTC).strftime("%H:%M:%S")
+    except Exception:
+        return timestamp_iso
+
+
 OBJECT_SYNONYMS: dict[str, list[str]] = {
     "person": ["person", "people", "someone", "anyone", "man", "woman", "human"],
     "bag": ["bag", "backpack", "handbag", "suitcase", "luggage"],

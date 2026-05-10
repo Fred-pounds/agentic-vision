@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
 from app.services.repository import Repository
-from app.services.text import extract_object_keywords
+from app.services.text import extract_object_keywords, format_human_time
+from app.services.notifier import send_alert_email
 
 
 @dataclass(slots=True)
@@ -37,7 +38,8 @@ def maybe_trigger_alerts(repo: Repository, event, cooldown_override: int | None 
             delta = event.timestamp_seconds - last_event.timestamp_seconds
             if delta < cooldown_seconds:
                 continue
-        message = f"{rule.text} matched at {event.timestamp_iso}"
+        message = f"{rule.text} matched at {format_human_time(event.timestamp_iso)}"
         repo.add_alert_hit(rule.id, event.id, message, event.timestamp_iso)
+        send_alert_email(rule.text, message)
         created += 1
     return created

@@ -9,6 +9,7 @@ from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 from app.core.config import Settings
 from app.models.schemas import (
     AlertRuleIn,
+    AlertRuleOut,
     AlertsOut,
     EventOut,
     HealthOut,
@@ -83,8 +84,20 @@ def create_router(settings: Settings, repo: Repository) -> APIRouter:
     def alerts() -> AlertsOut:
         return AlertsOut(rules=repo.list_alert_rules(), hits=repo.list_alert_hits())
 
+    @router.delete("/alerts/rules/{rule_id}")
+    def delete_alert_rule(rule_id: str) -> dict:
+        repo.delete_alert_rule(rule_id)
+        return {"ok": True}
+
+    @router.delete("/alerts/hits")
+    def clear_alert_hits() -> dict:
+        repo.clear_alert_hits()
+        return {"ok": True}
+
     @router.post("/seed", response_model=SeedOut)
     def seed() -> SeedOut:
+        # Keeping endpoint but making it minimally disruptive for internal testing if needed,
+        # but the frontend won't use it anymore by default.
         created_events = 0
         created_rules = 0
         created_hits = 0
